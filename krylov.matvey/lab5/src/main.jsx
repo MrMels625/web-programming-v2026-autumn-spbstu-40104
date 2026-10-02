@@ -10,19 +10,27 @@ function App() {
     }
     return [];
   });
+
   const [description, setDescription] = useState('');
 
-
-  useEffect(() => {
-    const raw = localStorage.getItem('tasks');
-    if (raw) {
-      setTasks(JSON.parse(raw));
-    }
-  }, []);
+  const [currentFilter, setFilter] = useState('all')
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect(() => {
+
+  }, [currentFilter])
+
+  const filteredTasks = tasks.filter(task => {
+    if (currentFilter === 'active') {
+      return !task.isDone;
+    } else if (currentFilter === 'completed') {
+      return task.isDone;
+    }
+    return true;
+  });
 
   const addTaskOnSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +42,7 @@ function App() {
     };
 
     setTasks([...tasks, newTask]);
+    setDescription('');
   }
 
   const toggleTask = (id) => {
@@ -54,13 +63,18 @@ function App() {
         <input onChange={(e) => {setDescription(e.target.value)}} value={description} data-testid='todo-input' type='text' required placeholder='Введите новую задачу'/>
         <button data-testid='todo-add' type='submit'>ДОБАВИТЬ</button>
       </form>
+      <div data-testid='todo-filter'>
+        <button onClick={() => setFilter('all')} type='button'>ВСЕ</button>
+        <button onClick={() => setFilter('active')} type='button'>АКТИВНЫЕ</button>
+        <button onClick={() => setFilter('completed')} type='button'>ВЫПОЛНЕННЫЕ</button>
+      </div>
       <ul className='task-list' data-testid='todo-list'>
-        { tasks.length === 0 ? (<li>Нет задач</li>) :
+        { filteredTasks.length === 0 ? (<li>Нет задач</li>) :
           (
-            tasks.map((task) => (
+            filteredTasks.map((task) => (
               (<li className='task' key={task.id}>
                 {task.description}
-                <input onChange={() => toggleTask(task.id)} type='checkbox'/>
+                <input onChange={() => toggleTask(task.id)} type='checkbox' checked={task.isDone}/>
                 <button onClick={() => deleteTask(task.id)} type='button' className='delete-task-button'>🗑</button>
               </li>)
             ))
