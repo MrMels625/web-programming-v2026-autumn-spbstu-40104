@@ -13,17 +13,15 @@ function App() {
 
   const [description, setDescription] = useState('');
 
-  const [currentFilter, setFilter] = useState('all')
+  const [currentFilter, setFilter] = useState('all');
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  useEffect(() => {
+  useEffect(() => {}, [currentFilter]);
 
-  }, [currentFilter])
-
-  const filteredTasks = tasks.filter(task => {
+  const filteredTasks = tasks.filter((task) => {
     if (currentFilter === 'active') {
       return !task.isDone;
     } else if (currentFilter === 'completed') {
@@ -37,52 +35,95 @@ function App() {
 
     const newTask = {
       id: crypto.randomUUID(),
-      description: description,
-      isDone: false
+      description,
+      isDone: false,
     };
 
     setTasks([...tasks, newTask]);
     setDescription('');
-  }
+  };
 
   const toggleTask = (id) => {
-    setTasks(tasks.map(task => {
-      return task.id === id ? {...task, isDone: !task.isDone} : task;
-    }));
-  }
+    setTasks(
+      tasks.map((task) => {
+        return task.id === id ? {...task, isDone: !task.isDone} : task;
+      }),
+    );
+  };
 
   const deleteTask = (id) =>
-    setTasks(tasks.filter(task => {
-      return task.id !== id;
-    }))
+    setTasks(
+      tasks.filter((task) => {
+        return task.id !== id;
+      }),
+    );
 
   return (
     <div className="app">
       <h1>МОИ ЗАДАЧИ</h1>
-      <form onSubmit={addTaskOnSubmit} id='task-adding-form'>
-        <input onChange={(e) => {setDescription(e.target.value)}} value={description} data-testid='todo-input' type='text' required placeholder='Введите новую задачу'/>
-        <button data-testid='todo-add' type='submit'>ДОБАВИТЬ</button>
+      <form onSubmit={addTaskOnSubmit} id="task-adding-form">
+        <input
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+          value={description}
+          data-testid="todo-input"
+          type="text"
+          required
+          placeholder="Введите новую задачу"
+        />
+        <button data-testid="todo-add" type="submit">
+          ДОБАВИТЬ
+        </button>
       </form>
-      <div data-testid='todo-filter'>
-        <button onClick={() => setFilter('all')} type='button'>ВСЕ</button>
-        <button onClick={() => setFilter('active')} type='button'>АКТИВНЫЕ</button>
-        <button onClick={() => setFilter('completed')} type='button'>ВЫПОЛНЕННЫЕ</button>
+      <div className="filtersBox">
+        <button
+          onClick={() => setFilter('all')}
+          type="button"
+          data-testid="todo-filter"
+        >
+          ВСЕ
+        </button>
+        <button
+          onClick={() => setFilter('active')}
+          type="button"
+          data-testid="todo-filter"
+        >
+          АКТИВНЫЕ
+        </button>
+        <button
+          onClick={() => setFilter('completed')}
+          type="button"
+          data-testid="todo-filter"
+        >
+          ВЫПОЛНЕННЫЕ
+        </button>
       </div>
-      <ul className='task-list' data-testid='todo-list'>
-        { filteredTasks.length === 0 ? (<li>Нет задач</li>) :
-          (
-            filteredTasks.map((task) => (
-              (<li className='task' key={task.id}>
-                {task.description}
-                <input onChange={() => toggleTask(task.id)} type='checkbox' checked={task.isDone}/>
-                <button onClick={() => deleteTask(task.id)} type='button' className='delete-task-button'>🗑</button>
-              </li>)
-            ))
-          )}
+      <ul className="task-list" data-testid="todo-list">
+        {filteredTasks.length === 0 ? (
+          <li>Нет задач</li>
+        ) : (
+          filteredTasks.map((task) => (
+            <li data-testid="todo-item" className="task" key={task.id}>
+              {task.description}
+              <input
+                onChange={() => toggleTask(task.id)}
+                type="checkbox"
+                checked={task.isDone}
+              />
+              <button
+                onClick={() => deleteTask(task.id)}
+                type="button"
+                className="delete-task-button"
+              >
+                🗑
+              </button>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
-
 }
 
 const rootElement = document.querySelector('[data-testid="app"]');
