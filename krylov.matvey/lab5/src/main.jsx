@@ -61,7 +61,7 @@ function App() {
   return (
     <div className="app">
       <h1>МОИ ЗАДАЧИ</h1>
-      <form onSubmit={addTaskOnSubmit} id="task-adding-form">
+      <form onSubmit={addTaskOnSubmit} className="task-adding-form">
         <input
           onChange={(e) => {
             setDescription(e.target.value);
@@ -76,11 +76,13 @@ function App() {
           ДОБАВИТЬ
         </button>
       </form>
-      <div className="filtersBox">
+      <hr />
+      <div className="filters-box">
         <button
           onClick={() => setFilter('all')}
           type="button"
           data-testid="todo-filter"
+          className={currentFilter === 'all' ? 'active' : ''}
         >
           ВСЕ
         </button>
@@ -88,6 +90,7 @@ function App() {
           onClick={() => setFilter('active')}
           type="button"
           data-testid="todo-filter"
+          className={currentFilter === 'active' ? 'active' : ''}
         >
           АКТИВНЫЕ
         </button>
@@ -95,6 +98,7 @@ function App() {
           onClick={() => setFilter('completed')}
           type="button"
           data-testid="todo-filter"
+          className={currentFilter === 'completed' ? 'active' : ''}
         >
           ВЫПОЛНЕННЫЕ
         </button>
@@ -105,7 +109,9 @@ function App() {
         ) : (
           filteredTasks.map((task) => (
             <li data-testid="todo-item" className="task" key={task.id}>
-              {task.description}
+              <span className={`task-description ${task.isDone ? 'done' : ''}`}>
+                {task.description}
+              </span>
               <input
                 onChange={() => toggleTask(task.id)}
                 type="checkbox"
