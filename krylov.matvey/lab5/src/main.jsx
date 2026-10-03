@@ -19,8 +19,6 @@ function App() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  useEffect(() => {}, [currentFilter]);
-
   const filteredTasks = tasks.filter((task) => {
     if (currentFilter === 'active') {
       return !task.isDone;
@@ -64,7 +62,7 @@ function App() {
       <form onSubmit={addTaskOnSubmit} className="task-adding-form">
         <input
           onChange={(e) => {
-            setDescription(e.target.value);
+            setDescription(e.target.value.trim());
           }}
           value={description}
           data-testid="todo-input"
@@ -108,7 +106,7 @@ function App() {
           <li>Нет задач</li>
         ) : (
           filteredTasks.map((task) => (
-            <li data-testid="todo-item" className="task" key={task.id}>
+            <li data-testid="todo-item" className="task">
               <span className={`task-description ${task.isDone ? 'done' : ''}`}>
                 {task.description}
               </span>
