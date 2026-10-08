@@ -1,5 +1,7 @@
 export function isPerfectNumber(n) {
-  if (n <= 1) return false;
+  if (n <= 1 || !Number.isInteger(n)) {
+    return false;
+  }
 
   let sum = 1;
   const lim = Math.floor(sqrt(n));
@@ -8,7 +10,7 @@ export function isPerfectNumber(n) {
     if (n % i === 0) {
       sum += i;
       const pair = n / i;
-      if (pair !== i) {
+      if (pair !== i && pair !== n) {
         sum += pair;
       }
     }
