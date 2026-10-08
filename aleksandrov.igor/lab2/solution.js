@@ -8,7 +8,7 @@ export function isPerfectNumber(n) {
     if (n % i === 0) {
       sum += i;
       const pair = n / i;
-      if (pair != i) {
+      if (pair !== i) {
         sum += pair;
       }
     }
