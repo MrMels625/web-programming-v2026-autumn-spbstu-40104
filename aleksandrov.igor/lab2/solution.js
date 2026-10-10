@@ -4,9 +4,8 @@ export function isPerfectNumber(n) {
   }
 
   let sum = 1;
-  const lim = Math.floor(sqrt(n));
 
-  for (let i = 2; i <= lim; ++i) {
+  for (let i = 2; i * i <= n; ++i) {
     if (n % i === 0) {
       sum += i;
       const pair = n / i;
