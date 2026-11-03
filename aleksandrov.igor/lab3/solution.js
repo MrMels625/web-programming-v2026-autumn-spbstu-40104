@@ -1,8 +1,10 @@
 export function intersection(arr1, arr2) {
-    console.log(arr1, " ", arr2);
-    return [];
-}
+    if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+        return [];
+    }
 
-const array1 =;
-const array2 =;
-console.log(intersection(array1, array2));
+    const set1 = new Set(arr1);
+    const filteredIntersection = arr2.filter(item => set1.has(item));
+
+    return [...new Set(filteredIntersection)];
+}
