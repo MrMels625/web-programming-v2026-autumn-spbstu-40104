@@ -1,7 +1,11 @@
 function isPrime(num) {
-  if (num <= 1) return false;
-  for (let i = 2; i * i <= num; i++) {
-    if (num % i === 0) return false;
+  if (num <= 1) {
+    return false;
+  }
+  for (let i = 2; i * i <= num; ++i) {
+    if (num % i === 0) {
+      return false;
+    }
   }
   return true;
 }
@@ -11,7 +15,7 @@ export function isPerfectNumber(n) {
     return false;
   }
 
-  for (let p = 2; ; p++) {
+  for (let p = 2; ; ++p) {
     const powerOfTwo = Math.pow(2, p - 1);
     const mersenneCandidate = Math.pow(2, p) - 1;
     const perfectCandidate = powerOfTwo * mersenneCandidate;
