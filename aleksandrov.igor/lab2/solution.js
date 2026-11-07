@@ -16,8 +16,8 @@ export function isPerfectNumber(n) {
   }
 
   for (let p = 2; ; ++p) {
-    const powerOfTwo = Math.pow(2, p - 1);
-    const mersenneCandidate = Math.pow(2, p) - 1;
+    const powerOfTwo = 2 ** (p - 1);
+    const mersenneCandidate = 2 ** p - 1;
     const perfectCandidate = powerOfTwo * mersenneCandidate;
 
     if (perfectCandidate === n) {
