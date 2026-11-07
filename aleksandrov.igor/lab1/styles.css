@@ -11,10 +11,6 @@ body {
   padding: 24px;
 }
 
-main {
-  max-width: 100%;
-}
-
 h1 {
   font-size: 1.5rem;
   margin-bottom: 16px;
@@ -34,11 +30,11 @@ h1 {
   width: 100%;
   margin: 0;
   padding: 0 0 16px;
-  border-bottom: 1px solid black;
 }
 
 .menu li:not(:last-child) {
   margin-bottom: 16px;
+  border-bottom: 1px solid black;
 }
 
 .dish-name {
