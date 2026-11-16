@@ -22,6 +22,24 @@ export class Recipe {
       this.ingredients.splice(i, 1);
     }
   }
+
+  addStep(step) {
+    if (step == null || step === '') {
+      return;
+    }
+    this.steps.push(String(step));
+  }
+
+  removeStep(step) {
+    const i = this.steps.indexOf(String(step));
+    if (i !== -1) {
+      this.steps.splice(i, 1);
+    }
+  }
+
+  get stepCount() {
+    return this.steps.length;
+  }
 }
 
 export function groupRecipesByIngredientCount(recipes) {
