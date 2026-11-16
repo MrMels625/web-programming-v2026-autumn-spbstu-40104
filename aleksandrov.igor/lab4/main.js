@@ -5,6 +5,17 @@ const recipes = [];
 const form = document.querySelector('form[data-testid="entity-form"]');
 const list = document.querySelector('[data-testid="entity-list"]');
 
+const DELAY = 300;
+
+function delay(fn) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      fn();
+      resolve();
+    }, DELAY);
+  });
+}
+
 function parseList(text) {
   return String(text || '')
     .split(/\n|,/)
@@ -44,9 +55,11 @@ form.addEventListener('submit', (e) => {
   );
   const steps = parseList(form.querySelector('[name="steps"]').value);
 
-  recipes.push(new Recipe(title, ingredients, steps));
-  form.reset();
-  render();
+  delay(() => {
+    recipes.push(new Recipe(title, ingredients, steps));
+    form.reset();
+    render();
+  });
 });
 
 list.addEventListener('click', (e) => {
@@ -54,6 +67,8 @@ list.addEventListener('click', (e) => {
   if (!btn) return;
 
   const index = Number(btn.dataset.index);
-  recipes.splice(index, 1);
-  render();
+  delay(() => {
+    recipes.splice(index, 1);
+    render();
+  });
 });
