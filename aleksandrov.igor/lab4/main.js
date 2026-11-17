@@ -1,6 +1,35 @@
 import {Recipe} from './model.js';
 
-const recipes = [];
+const STORAGE_KEY = 'lab4-recipes';
+
+function save() {
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(recipes.map((r) => ({
+      title: r.title,
+      ingredients: r.ingredients,
+      steps: r.steps,
+    })))
+  );
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return [];
+    }
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data)) {
+      return [];
+    }
+    return data.map((item) => new Recipe(item.title, item.ingredients, item.steps));
+  } catch {
+    return [];
+  }
+}
+
+let recipes = load();
 
 const form = document.querySelector('form[data-testid="entity-form"]');
 const list = document.querySelector('[data-testid="entity-list"]');
@@ -58,6 +87,7 @@ form.addEventListener('submit', (e) => {
   delay(() => {
     recipes.push(new Recipe(title, ingredients, steps));
     form.reset();
+    save();
     render();
   });
 });
@@ -69,6 +99,8 @@ list.addEventListener('click', (e) => {
   const index = Number(btn.dataset.index);
   delay(() => {
     recipes.splice(index, 1);
+    save();
     render();
   });
 });
+
