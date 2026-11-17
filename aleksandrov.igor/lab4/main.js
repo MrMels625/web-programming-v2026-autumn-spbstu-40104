@@ -5,11 +5,13 @@ const STORAGE_KEY = 'lab4-recipes';
 function save() {
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(recipes.map((r) => ({
-      title: r.title,
-      ingredients: r.ingredients,
-      steps: r.steps,
-    })))
+    JSON.stringify(
+      recipes.map((r) => ({
+        title: r.title,
+        ingredients: r.ingredients,
+        steps: r.steps,
+      })),
+    ),
   );
 }
 
@@ -23,7 +25,9 @@ function load() {
     if (!Array.isArray(data)) {
       return [];
     }
-    return data.map((item) => new Recipe(item.title, item.ingredients, item.steps));
+    return data.map(
+      (item) => new Recipe(item.title, item.ingredients, item.steps),
+    );
   } catch {
     return [];
   }
@@ -116,7 +120,10 @@ list.addEventListener('click', (e) => {
   }
 
   if (action === 'remove-ingredient') {
-    const value = prompt('Какой ингредиент удалить?', recipe.ingredients[0] || '');
+    const value = prompt(
+      'Какой ингредиент удалить?',
+      recipe.ingredients[0] || '',
+    );
     if (!value?.trim()) return;
     delay(() => {
       recipe.removeIngredient(value.trim());
@@ -159,4 +166,3 @@ list.addEventListener('click', (e) => {
     render();
   });
 });
-
