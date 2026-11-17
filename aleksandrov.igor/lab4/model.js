@@ -10,30 +10,30 @@ export class Recipe {
   }
 
   addIngredient(ingredient) {
-    if (ingredient == null || ingredient == '') {
+    if (ingredient === null || ingredient === undefined || ingredient === '') {
       return;
     }
     this.ingredients.push(String(ingredient));
   }
 
   removeIngredient(ingredient) {
-    const i = this.ingredients.indexOf(String(ingredient));
-    if (i !== -1) {
-      this.ingredients.splice(i, 1);
+    const idx = this.ingredients.indexOf(String(ingredient));
+    if (idx !== -1) {
+      this.ingredients.splice(idx, 1);
     }
   }
 
   addStep(step) {
-    if (step == null || step === '') {
+    if (step === null || step === undefined || step === '') {
       return;
     }
     this.steps.push(String(step));
   }
 
   removeStep(step) {
-    const i = this.steps.indexOf(String(step));
-    if (i !== -1) {
-      this.steps.splice(i, 1);
+    const idx = this.steps.indexOf(String(step));
+    if (idx !== -1) {
+      this.steps.splice(idx, 1);
     }
   }
 
@@ -43,15 +43,15 @@ export class Recipe {
 }
 
 export function groupRecipesByIngredientCount(recipes) {
-  const res = {};
+  const result = {};
   for (const r of recipes) {
     const key = String(r.ingredientCount);
-    if (!res[key]) {
-      res[key] = [];
+    if (!result[key]) {
+      result[key] = [];
     }
-    res[key].push(r);
+    result[key].push(r);
   }
-  return res;
+  return result;
 }
 
 export function getUniqueIngredients(recipes) {
@@ -70,15 +70,15 @@ export function findRecipesByIngredient(recipes, ingredient) {
 }
 
 export function groupRecipesByStepCount(recipes) {
-  const res = {};
+  const result = {};
   for (const r of recipes) {
     const key = String(r.steps.length);
-    if (!res[key]) {
-      res[key] = [];
+    if (!result[key]) {
+      result[key] = [];
     }
-    res[key].push(r);
+    result[key].push(r);
   }
-  return res;
+  return result;
 }
 
 export function getRecipeTitles(recipes) {
