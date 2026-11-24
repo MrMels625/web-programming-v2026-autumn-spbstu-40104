@@ -1,4 +1,4 @@
-import {StrictMode, useState, useEffect} from 'react';
+import React, {StrictMode, useState, useEffect} from 'react';
 import {createRoot} from 'react-dom/client';
 import './styles.css';
 
@@ -14,6 +14,32 @@ function Timer() {
           secondsLeft % 60,
         ).padStart(2, '0')}`;
 
+  const startTimer = () => {
+    const mins = parseInt(minutes, 10);
+    if (!mins || mins <= 0) return;
+
+    setSecondsLeft(mins * 60);
+    setIsRunning(true);
+  };
+
+  useEffect(() => {
+    if (!isRunning || secondsLeft === null) return;
+
+    if (secondsLeft === 0) {
+      setIsRunning(false);
+      alert('Готово');
+      setSecondsLeft(null);
+      setMinutes('');
+      return;
+    }
+
+    const id = setTimeout(() => {
+      setSecondsLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(id);
+  }, [isRunning, secondsLeft]);
+
   return (
     <div className="timer">
       <input
@@ -22,10 +48,17 @@ function Timer() {
         step="1"
         value={minutes}
         onChange={(e) => setMinutes(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') startTimer();
+        }}
         placeholder="Минуты"
         disabled={isRunning}
       />
-      <button type="button" disabled={isRunning || !minutes}>
+      <button
+        type="button"
+        onClick={startTimer}
+        disabled={isRunning || !minutes}
+      >
         Запуск
       </button>
       <div className="time">{display}</div>
