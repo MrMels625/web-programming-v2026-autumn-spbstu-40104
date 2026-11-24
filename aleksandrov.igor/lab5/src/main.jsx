@@ -16,14 +16,18 @@ function Timer() {
 
   const startTimer = () => {
     const mins = parseInt(minutes, 10);
-    if (!mins || mins <= 0) return;
+    if (!mins || mins <= 0) {
+      return;
+    }
 
     setSecondsLeft(mins * 60);
     setIsRunning(true);
   };
 
   useEffect(() => {
-    if (!isRunning || secondsLeft === null) return;
+    if (!isRunning || secondsLeft === null) {
+      return;
+    }
 
     if (secondsLeft === 0) {
       setIsRunning(false);
@@ -43,6 +47,7 @@ function Timer() {
   return (
     <div className="timer">
       <input
+        data-testid="timer-input"
         type="number"
         min="1"
         step="1"
@@ -54,19 +59,24 @@ function Timer() {
           }
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') startTimer();
+          if (e.key === 'Enter') {
+            startTimer();
+          }
         }}
         placeholder="Минуты"
         disabled={isRunning}
       />
       <button
+        data-testid="timer-start"
         type="button"
         onClick={startTimer}
         disabled={isRunning || !minutes}
       >
         Запуск
       </button>
-      <div className="time">{display}</div>
+      <div className="time" data-testid="timer-display">
+        {display}
+      </div>
     </div>
   );
 }
