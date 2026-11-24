@@ -47,7 +47,12 @@ function Timer() {
         min="1"
         step="1"
         value={minutes}
-        onChange={(e) => setMinutes(e.target.value)}
+        onChange={(e) => {
+          const val = e.target.value;
+          if (val === '' || /^[1-9]\d*$/.test(val)) {
+            setMinutes(val);
+          }
+        }}
         onKeyDown={(e) => {
           if (e.key === 'Enter') startTimer();
         }}
